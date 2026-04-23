@@ -20,3 +20,8 @@ mongoose.connect(process.env.MONGO_URI)
         console.log('Connection failed', err);
     });
 
+    const userRoutes = require('./routes/user');
+app.use('/api/user', userRoutes);
+
+const taskRoutes = require('./routes/task');
+app.use('/api/tasks', taskRoutes);
