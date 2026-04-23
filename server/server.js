@@ -25,3 +25,9 @@ app.use('/api/user', userRoutes);
 
 const taskRoutes = require('./routes/task');
 app.use('/api/tasks', taskRoutes);
+
+const expenseRouter = require('./routes/expense');
+app.use('/api/expenses' , expenseRouter);
+
+const habitRouter = require('./routes/habits');
+app.use('/api/habits' , habitRouter);
