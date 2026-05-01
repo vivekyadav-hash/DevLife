@@ -9,8 +9,7 @@ function Habits(){
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
 
-   useEffect(() => {
-       const fetchTasks =   async () => {
+      const fetchHabits =   async () => {
          const response = await axios.get( 'http://localhost:8080/api/habits' ,
             {headers :{
         Authorization : `Bearer ${token}`
@@ -18,10 +17,19 @@ function Habits(){
        });
        setHabits(response.data.habits);
     };
-       fetchTasks();
+
+   useEffect(() => {
+     
+       fetchHabits();
  }, []);
 
 
+ const handleDelete = async (id) => {
+    await axios.delete(`http://localhost:8080/api/habits/${id}` ,{
+        headers : {Authorization : `Bearer ${token}`}
+    })
+    fetchHabits();
+ }
  const handleOnSubmit = async(e) =>{
     e.preventDefault();
     await axios.post('http://localhost:8080/api/habits' ,
@@ -48,6 +56,7 @@ setFrequency('');
                     <h3>{hab.name}</h3>
                     <p>{hab.frequency}</p>
                     <p>{hab.isCompleted ? 'Completed' : 'Not Completed'}</p>
+                    <button onClick={() => handleDelete(hab._id)}>Delete</button>
                 </div>
             ))}
         </div>

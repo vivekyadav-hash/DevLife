@@ -11,9 +11,7 @@ function Expenses(){
   const navigate = useNavigate();
     const token = localStorage.getItem('token');
 
-
-useEffect(() => {
-       const fetchTasks =   async () => {
+     const fetchExpenses =   async () => {
          const response = await axios.get( 'http://localhost:8080/api/expenses' ,{
         headers :{
         Authorization : `Bearer ${token}`
@@ -21,10 +19,18 @@ useEffect(() => {
        });
        setExpense(response.data.expenses);
     };
-       fetchTasks();
+
+useEffect(() => {
+      
+       fetchExpenses();
  }, []);
 
-
+const handleDelete = async (id) =>{
+    await axios.delete(`http://localhost:8080/api/expenses/${id}` , {
+        headers: {Authorization : `Bearer ${token}`}
+    })
+    fetchExpenses();
+}
 
 const handleOnSubmit =async (e) =>{
 e.preventDefault();
@@ -51,6 +57,7 @@ const response = await axios.get('http://localhost:8080/api/expenses' ,
                     <h3>{exp.title}</h3>
                     <p>{exp.amount}</p>
                     <p>{exp.purpose}</p>
+                    <button onClick={() => handleDelete(exp._id)}>Delete</button>
                 </div>
             ))}
         </div>
