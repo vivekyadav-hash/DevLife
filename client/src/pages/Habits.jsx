@@ -40,28 +40,55 @@ setFrequency('');
 
     const response = await axios.get('http://localhost:8080/api/habits' , {
         headers : {Authorization : `Bearer ${token}`}
-    });setHabits(response.data.habits);
+    }); setName('');
+        setFrequency('');
+        fetchHabits();
  }
 
-  return(
-        <div>
-            <h1>Habits</h1>
-            <form onSubmit={handleOnSubmit}>
-                <input placeholder='Name' value={name} onChange={(e) => setName(e.target.value)} />
-                <input placeholder='Frequency' value={frequency} onChange={(e) => setFrequency(e.target.value)} />
-                <button>Submit</button>
-            </form>
-            {habits.map((hab) => (
-                <div key={hab._id}>
-                    <h3>{hab.name}</h3>
-                    <p>{hab.frequency}</p>
-                    <p>{hab.isCompleted ? 'Completed' : 'Not Completed'}</p>
-                    <button onClick={() => handleDelete(hab._id)}>Delete</button>
+  return (
+        <div className="min-h-screen bg-gray-950 text-white">
+            <div className="max-w-4xl mx-auto px-8 py-10">
+                <h1 className="text-3xl font-bold mb-8">Habits</h1>
+
+                <form onSubmit={handleOnSubmit} className="bg-gray-800 rounded-2xl p-6 mb-8 flex flex-col gap-4">
+                    <input
+                        placeholder="Habit Name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="bg-gray-700 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                    <input
+                        placeholder="Frequency (daily / weekly)"
+                        value={frequency}
+                        onChange={(e) => setFrequency(e.target.value)}
+                        className="bg-gray-700 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                    <button className="bg-purple-500 hover:bg-purple-600 rounded-lg py-2 font-semibold transition">
+                        Add Habit
+                    </button>
+                </form>
+
+                <div className="flex flex-col gap-4">
+                    {habits.map((hab) => (
+                        <div key={hab._id} className="bg-gray-800 rounded-2xl p-6 flex justify-between items-start">
+                            <div>
+                                <h3 className="text-xl font-semibold text-purple-400">{hab.name}</h3>
+                                <p className="text-gray-500 text-sm mt-1">Frequency: {hab.frequency}</p>
+                                <p className={`text-sm mt-2 font-medium ${hab.isCompleted ? 'text-green-400' : 'text-yellow-400'}`}>
+                                    {hab.isCompleted ? '✅ Completed' : '⏳ Not Completed'}
+                                </p>
+                            </div>
+                            <button
+                                onClick={() => handleDelete(hab._id)}
+                                className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm transition">
+                                Delete
+                            </button>
+                        </div>
+                    ))}
                 </div>
-            ))}
+            </div>
         </div>
     );
-
    
 }
 
