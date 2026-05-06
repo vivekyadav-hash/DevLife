@@ -19,4 +19,4 @@ const habitsSchema = new mongoose.Schema({
    },
    },{timestamps:true});
 
-   module.exports = mongoose.model('Habits' , habitsSchema);
+   module.exports = mongoose.model('habits' , habitsSchema);
