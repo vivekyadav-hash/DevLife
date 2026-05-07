@@ -6,14 +6,8 @@ const jwt = require('jsonwebtoken');
 
 router.post('/register', async (req, res) => {
     try {
-        const { name, email, password, repassword } = req.body;
+        const { name, email, password } = req.body;
 
-        
-        if (password !== repassword) {
-            return res.status(400).json({ message: 'password is not matched ' });
-        }
-
-       
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ message: 'user is already exist ' });

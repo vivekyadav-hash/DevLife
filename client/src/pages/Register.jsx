@@ -9,10 +9,17 @@ function Register(){
     const [name , setName] = useState('');
     const[email , setEmail] = useState('');
     const [password , setPassword] = useState('');
+    const [repassword , setRepassword] = useState('');
+
     const [error, setError] = useState('');
 
+ 
     const handleSignUp = async (e) =>{
         e.preventDefault();
+           if (password !== repassword) {
+    setError('Passwords do not match');
+    return;
+}
         try{
             const response = await axios.post(`${API_URL}/api/auth/register` , {
               name , 
@@ -51,6 +58,13 @@ function Register(){
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        className="bg-gray-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                     <input
+                        type="repassword"
+                        placeholder="Password"
+                        value={repassword}
+                        onChange={(e) => setRepassword(e.target.value)}
                         className="bg-gray-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
                     />
                    
