@@ -38,8 +38,9 @@ router.post('/register', async (req, res) => {
         res.status(201).json({ message: 'You registered Successfully ' , token:token});
 
     } catch (err) {
-        res.status(500).json({ message: 'Server error', error: err.message });
-    }
+    console.error('Register error:', err);
+    res.status(500).json({ message: 'Server error', error: err.message });
+}
 });
 
 router.post('/login', async (req, res) => {
