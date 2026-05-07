@@ -16,10 +16,10 @@ function Dashboard() {
             axios.get(`${API_URL}/api/tasks`, {
                 headers: { Authorization: `Bearer ${token}` }
             }),
-            axios.get(`${API_URL}/api/tasks`, {
+            axios.get(`${API_URL}/api/expenses`, {
                 headers: { Authorization: `Bearer ${token}` }
             }),
-            axios.get(`${API_URL}/api/tasks`, {
+            axios.get(`${API_URL}/api/habits`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
         ]);
