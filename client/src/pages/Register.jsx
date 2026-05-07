@@ -9,7 +9,6 @@ function Register(){
     const [name , setName] = useState('');
     const[email , setEmail] = useState('');
     const [password , setPassword] = useState('');
-    const [repassword , setRepassword] = useState('');
     const [error, setError] = useState('');
 
     const handleSignUp = async (e) =>{
@@ -19,7 +18,6 @@ function Register(){
               name , 
               email, 
               password , 
-              repassword , 
             })
             localStorage.setItem('token' , response.data.token);
             navigate('/');
@@ -55,13 +53,7 @@ function Register(){
                         onChange={(e) => setPassword(e.target.value)}
                         className="bg-gray-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <input
-                        type="password"
-                        placeholder="Confirm Password"
-                        value={repassword}
-                        onChange={(e) => setRepassword(e.target.value)}
-                        className="bg-gray-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
-                    />
+                   
                     {error && <p className="text-red-400 text-sm">{error}</p>}
                     <button className="bg-blue-500 hover:bg-blue-600 rounded-lg py-3 font-semibold transition">
                         Register
