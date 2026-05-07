@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_URL from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 
 function Tasks() {
@@ -12,7 +13,7 @@ function Tasks() {
 
 
     const fetchTasks =   async () => {
-         const response = await axios.get( 'http://localhost:8080/api/tasks' ,{
+         const response = await axios.get(`${API_URL}/api/tasks` ,{
         headers :{
         Authorization : `Bearer ${token}`
         }
@@ -28,7 +29,7 @@ function Tasks() {
 
 
     const handleDelete = async (id) =>{
-           await axios.delete(`http://localhost:8080/api/tasks/${id}` , {
+           await axios.delete(`${API_URL}/api/tasks/${id}` , {
             headers : {Authorization: `Bearer ${token}`}
            }
            );fetchTasks();
@@ -38,12 +39,12 @@ function Tasks() {
 
     const handleOnSubmit = async (e) =>{
         e.preventDefault();
-        await axios.post('http://localhost:8080/api/tasks' ,
+        await axios.post(`${API_URL}/api/tasks` ,
         {title , description ,category  },
        {headers : {Authorization : `Bearer ${token}`
     }})
 
-    const response = await axios.get('http://localhost:8080/api/tasks' , {
+    const response = await axios.get(`${API_URL}/api/tasks` , {
         headers: {Authorization : `Bearer ${token}`}
     })
      setTitle('');

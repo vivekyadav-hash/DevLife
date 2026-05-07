@@ -1,5 +1,6 @@
 import { useEffect , useState } from 'react';
 import axios from 'axios';
+import API_URL from "../utils/api";
 
 function Dashboard() {
     const [ tasks , setTasks] = useState([]);
@@ -12,13 +13,13 @@ function Dashboard() {
         const token = localStorage.getItem('token');
         
         const [tasksRes, expensesRes, habitsRes] = await Promise.all([
-            axios.get('http://localhost:8080/api/tasks', {
+            axios.get(`${API_URL}/api/tasks`, {
                 headers: { Authorization: `Bearer ${token}` }
             }),
-            axios.get('http://localhost:8080/api/expenses', {
+            axios.get(`${API_URL}/api/tasks`, {
                 headers: { Authorization: `Bearer ${token}` }
             }),
-            axios.get('http://localhost:8080/api/habits', {
+            axios.get(`${API_URL}/api/tasks`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
         ]);

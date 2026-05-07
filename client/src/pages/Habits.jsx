@@ -1,5 +1,6 @@
 import {useEffect , useState} from 'react';
 import axios from 'axios';
+import API_URL from "../utils/api";
 import { useNavigate } from 'react-router-dom';
 
 function Habits(){
@@ -10,7 +11,7 @@ function Habits(){
     const token = localStorage.getItem('token');
 
       const fetchHabits =   async () => {
-         const response = await axios.get( 'http://localhost:8080/api/habits' ,
+         const response = await axios.get( `${API_URL}/api/habits` ,
             {headers :{
         Authorization : `Bearer ${token}`
         }
@@ -25,20 +26,20 @@ function Habits(){
 
 
  const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:8080/api/habits/${id}` ,{
+    await axios.delete(`${API_URL}/api/habits/${id}` ,{
         headers : {Authorization : `Bearer ${token}`}
     })
     fetchHabits();
  }
  const handleOnSubmit = async(e) =>{
     e.preventDefault();
-    await axios.post('http://localhost:8080/api/habits' ,
+    await axios.post(`${API_URL}/api/habits`  ,
         {name , frequency },
         {headers : { Authorization : ` Bearer ${token}`}
     });setName(''),
 setFrequency('');
 
-    const response = await axios.get('http://localhost:8080/api/habits' , {
+    const response = await axios.get(`${API_URL}/api/habits`  , {
         headers : {Authorization : `Bearer ${token}`}
     }); setName('');
         setFrequency('');

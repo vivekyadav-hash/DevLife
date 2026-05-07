@@ -8,21 +8,21 @@ router.post('/register', async (req, res) => {
     try {
         const { name, email, password, repassword } = req.body;
 
-        // Step 2: check passwords match
+        
         if (password !== repassword) {
             return res.status(400).json({ message: 'password is not matched ' });
         }
 
-        // Step 3: check if user exists
+       
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ message: 'user is already exist ' });
         }
 
-        // Step 4: hash password
+       
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Step 5: create and save user
+       
         const newUser = new User({
             name,
             email,
