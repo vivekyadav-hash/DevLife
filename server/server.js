@@ -15,7 +15,8 @@ const port = process.env.PORT || 8080;
 
 
 app.use(cors({
-  origin: 'https://dev-life-kappa.vercel.app' ,
+  origin: ['https://dev-life-kappa.vercel.app',
+        'https://dev-life-bdwqbxgc4-vivekyadav-hashs-projects.vercel.app'],
   credentials : true
 }));
 
