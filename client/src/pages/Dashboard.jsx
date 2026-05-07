@@ -31,9 +31,8 @@ function Dashboard() {
 
     fetchData();
 }, []);
-const completedHabits = habits.filter(habit => habit.isCompleted === true);
-const notcompletedHabits = habits.filter(habit => habit.isCompleted === false);
-
+const completedHabits = (habits || []).filter(habit => habit.isCompleted === true);
+const notcompletedHabits = (habits || []).filter(habit => habit.isCompleted === false);
     return (
     <div className="min-h-screen bg-gray-950 text-white">
         <div className="max-w-4xl mx-auto px-4 md:px-8 py-6 md:py-10">
