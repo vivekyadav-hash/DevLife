@@ -14,7 +14,7 @@ router.post('/' , authMiddleware , async (req ,res ) =>{
            userId
         })
         await newExpense.save();
-        res.status(201).json({message : 'Expenses recorded ' , expense : newExpense});
+        res.status(201).json({message : 'Expenses recorded ' , expenses : newExpense});
     }catch(err) {
         res.status(500).json({message : 'Server error' , error : err.message})
     };
