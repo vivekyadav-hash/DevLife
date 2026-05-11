@@ -65,9 +65,7 @@ function Expenses() {
             );
 
             // Step 5 — Temp ko real se replace karo
-            setExpense(prev => prev.map(exp =>
-                exp._id === tempExpense._id ? res.data.expense : exp
-            ));
+           fetchExpenses();
 
         } catch (err) {
             // Step 6 — Fail hone pe temp hatao
