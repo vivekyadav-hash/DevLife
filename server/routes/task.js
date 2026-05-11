@@ -17,7 +17,7 @@ try{
         userId
     })
     await newTask.save();
- res.status(201).json({ message: 'Your Task added  ' });
+ res.status(201).json({ message: 'Your Task added  ' , task: newTask});
 
     } catch (err) {
         res.status(500).json({ message: 'Server error', error: err.message });

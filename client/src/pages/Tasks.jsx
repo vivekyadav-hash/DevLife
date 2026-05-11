@@ -55,15 +55,19 @@ function Tasks() {
             
             const res = await axios.post(
                 `${API_URL}/api/tasks`,
-                { title, description, category },
+                { 
+                title: tempTask.title, 
+                description: tempTask.description, 
+                category: tempTask.category 
+            },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
            
             setTasks(prev => prev.map(task =>
-                task._id === tempTask._id ? res.data : task
+                task._id === tempTask._id ? res.data.task : task
             ));
         } catch (err) {
-            // Error aaye toh temp task hatao
+          
             setTasks(prev => prev.filter(task => task._id !== tempTask._id));
             console.error('Task add failed', err);
         }
