@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import API_URL from '../utils/api';
+import Expenses from './Expenses';
 
 function Tasks() {
     const [tasks, setTasks] = useState([]);

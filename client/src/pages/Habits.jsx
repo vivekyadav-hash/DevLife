@@ -26,25 +26,42 @@ function Habits(){
 
 
  const handleDelete = async (id) => {
+    setHabits(prev => prev.filter(habits => habits._id !== id));
+    try{
     await axios.delete(`${API_URL}/api/habits/${id}` ,{
         headers : {Authorization : `Bearer ${token}`}
-    })
+    });
+}catch(err)
+{
     fetchHabits();
+}
+    
  }
  const handleOnSubmit = async(e) =>{
     e.preventDefault();
-    await axios.post(`${API_URL}/api/habits`  ,
-        {name , frequency },
-        {headers : { Authorization : ` Bearer ${token}`}
-    });setName(''),
-setFrequency('');
+    const temphabit = {
+        _id: Date.now().toString(),
+        name ,
+        frequency, 
+        isCompleted: false 
+    };
+    setHabits(prev =>[...pre , temphabit]);
 
-    const response = await axios.get(`${API_URL}/api/habits`  , {
-        headers : {Authorization : `Bearer ${token}`}
-    }); setName('');
-        setFrequency('');
-        fetchHabits();
- }
+    setName('');
+    setFrequency('');
+    try{
+   const res =  await axios.post(`${API_URL}/api/habits`  ,
+        {name : temphabit.name ,
+             frequency : temphabit.frequency
+             },
+        {headers : { Authorization : ` Bearer ${token}`}
+    });
+    setHabits(prev => prev.map(habits =>
+         habits._id === temphabit._id ? res.data.habit : habit));
+    }catch(err){
+     setHabits(prev =>prev.filter(habits => habits._id !== temphabit._id));
+     console.error('Habits locked failed', err);
+    }}
 
   return (
         <div className="min-h-screen bg-gray-950 text-white">

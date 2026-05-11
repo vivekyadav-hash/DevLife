@@ -15,7 +15,7 @@ router.post('/' , authMiddleware, async(req , res) =>{
             userId
         })
         await newHabits.save();
-        res.status(201).json({message: 'Your habit is marked'});
+        res.status(201).json({message: 'Your habit is marked' , habit : newHabits});
     }catch(err){
         res.status(500).json({message : 'Server error' , error : err.message });
     }

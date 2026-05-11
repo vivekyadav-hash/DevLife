@@ -27,26 +27,49 @@ useEffect(() => {
  }, []);
 
 const handleDelete = async (id) =>{
-    await axios.delete(`${API_URL}/api/expenses/${id}` , {
+    setTasks(prev => prev.filter(expense => expense._id !== id));
+    try{ await axios.delete(`${API_URL}/api/expenses/${id}` , {
         headers: {Authorization : `Bearer ${token}`}
-    })
+    });
+}catch(err){
     fetchExpenses();
+}
 }
 
 const handleOnSubmit =async (e) =>{
 e.preventDefault();
-await axios.post(`${API_URL}/api/expenses` ,
-     { title , amount , purpose} , 
+
+const tempExpense = {
+    _id: Date.now().toString(),
+    title,
+    amount, 
+    purpose,
+};
+setTasks(prev => [...prev , tempExpense]);
+
+setTitle('');
+setAmount('');
+setPurpose('');
+
+try{
+ const res = await axios.post(
+    `${API_URL}/api/expenses` ,
+     { title: tempExpense.title ,
+         amount: tempExpense.amount ,
+          purpose: tempExpense.purpose
+        } , 
     {headers: {Authorization : `Bearer ${token}`}
 })
-const response = await axios.get(`${API_URL}/api/expenses` ,
-    {headers : {Authorization: `Bearer ${token}`}}
-); setTitle('');
-        setAmount('');
-        setPurpose('');
-        fetchExpenses();
-}
 
+setExpense(prev=> prev.map(expense =>
+    expense._id === tempExpense._id ? res.data.expense : expense
+))
+
+}catch(err){
+    setExpense(prev => prev.filter(expense => expense._id !== tempExpense._id));
+    console.error('Expense add failed' , err);
+}
+}
    return (
         <div className="min-h-screen bg-gray-950 text-white">
             <div className="max-w-4xl mx-auto px-4 md:px-8 py-6 md:py-10">
