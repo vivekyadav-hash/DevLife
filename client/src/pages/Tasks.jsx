@@ -1,65 +1,79 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import API_URL from '../utils/api';
-import { useNavigate } from 'react-router-dom';
 
 function Tasks() {
     const [tasks, setTasks] = useState([]);
-    const [title , setTitle] = useState('');
-    const [description , setDescription] = useState('');
-    const [category , setCategory] = useState('');
-    const navigate = useNavigate();
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [category, setCategory] = useState('');
     const token = localStorage.getItem('token');
 
-
-    const fetchTasks =   async () => {
-         const response = await axios.get(`${API_URL}/api/tasks` ,{
-        headers :{
-        Authorization : `Bearer ${token}`
-        }
-       });
-       setTasks(response.data.tasks);
+    const fetchTasks = async () => {
+        const response = await axios.get(`${API_URL}/api/tasks`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        setTasks(response.data.tasks);
     };
 
     useEffect(() => {
-       
-       fetchTasks();
+        fetchTasks();
     }, []);
 
-
-
-    const handleDelete = async (id) =>{
-           await axios.delete(`${API_URL}/api/tasks/${id}` , {
-            headers : {Authorization: `Bearer ${token}`}
-           }
-           );fetchTasks();
+    const handleDelete = async (id) => {
+       
+        setTasks(prev => prev.filter(task => task._id !== id));
+        try {
+            await axios.delete(`${API_URL}/api/tasks/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+        } catch (err) {
+           
+            fetchTasks();
         }
-         
-        
+    };
 
-    const handleOnSubmit = async (e) =>{
+    const handleOnSubmit = async (e) => {
         e.preventDefault();
-        await axios.post(`${API_URL}/api/tasks` ,
-        {title , description ,category  },
-       {headers : {Authorization : `Bearer ${token}`
-    }})
 
-    const response = await axios.get(`${API_URL}/api/tasks` , {
-        headers: {Authorization : `Bearer ${token}`}
-    })
-     setTitle('');
+        
+        const tempTask = {
+            _id: Date.now().toString(),
+            title,
+            description,
+            category,
+            isCompleted: false
+        };
+        setTasks(prev => [...prev, tempTask]);
+
+      
+        setTitle('');
         setDescription('');
         setCategory('');
-        fetchTasks();
-        
-        }
 
-   return (
+        try {
+            
+            const res = await axios.post(
+                `${API_URL}/api/tasks`,
+                { title, description, category },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+           
+            setTasks(prev => prev.map(task =>
+                task._id === tempTask._id ? res.data : task
+            ));
+        } catch (err) {
+            // Error aaye toh temp task hatao
+            setTasks(prev => prev.filter(task => task._id !== tempTask._id));
+            console.error('Task add failed', err);
+        }
+    };
+
+    return (
         <div className="min-h-screen bg-gray-950 text-white">
             <div className="max-w-4xl mx-auto px-4 md:px-8 py-6 md:py-10">
                 <h1 className="text-3xl font-bold mb-8">Tasks</h1>
 
-                {/* Add Task Form */}
                 <form onSubmit={handleOnSubmit} className="bg-gray-800 rounded-2xl p-6 mb-8 flex flex-col gap-4">
                     <input
                         placeholder="Title"
@@ -84,7 +98,6 @@ function Tasks() {
                     </button>
                 </form>
 
-                {/* Task List */}
                 <div className="flex flex-col gap-4">
                     {tasks.map((task) => (
                         <div key={task._id} className="bg-gray-800 rounded-2xl p-6 flex justify-between items-start">
