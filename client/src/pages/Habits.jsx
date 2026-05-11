@@ -1,69 +1,69 @@
-import {useEffect , useState} from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import API_URL from "../utils/api";
-import { useNavigate } from 'react-router-dom';
 
-function Habits(){
-    const [habits , setHabits] = useState([]);
-    const[name , setName] = useState('');
-    const[frequency , setFrequency] = useState('');
-    const navigate = useNavigate();
+function Habits() {
+    const [habits, setHabits] = useState([]);
+    const [name, setName] = useState('');
+    const [frequency, setFrequency] = useState('');
     const token = localStorage.getItem('token');
 
-      const fetchHabits =   async () => {
-         const response = await axios.get( `${API_URL}/api/habits` ,
-            {headers :{
-        Authorization : `Bearer ${token}`
+    const fetchHabits = async () => {
+        const response = await axios.get(`${API_URL}/api/habits`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        setHabits(response.data.habits);
+    };
+
+    useEffect(() => {
+        fetchHabits();
+    }, []);
+
+    const handleDelete = async (id) => {
+        setHabits(prev => prev.filter(hab => hab._id !== id));
+        try {
+            await axios.delete(`${API_URL}/api/habits/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+        } catch (err) {
+            fetchHabits();
         }
-       });
-       setHabits(response.data.habits);
     };
 
-   useEffect(() => {
-     
-       fetchHabits();
- }, []);
+    const handleOnSubmit = async (e) => {
+        e.preventDefault();
 
+        const tempHabit = {
+            _id: Date.now().toString(),
+            name,
+            frequency,
+            isCompleted: false
+        };
 
- const handleDelete = async (id) => {
-    setHabits(prev => prev.filter(habits => habits._id !== id));
-    try{
-    await axios.delete(`${API_URL}/api/habits/${id}` ,{
-        headers : {Authorization : `Bearer ${token}`}
-    });
-}catch(err)
-{
-    fetchHabits();
-}
-    
- }
- const handleOnSubmit = async(e) =>{
-    e.preventDefault();
-    const temphabit = {
-        _id: Date.now().toString(),
-        name ,
-        frequency, 
-        isCompleted: false 
+        setHabits(prev => [...prev, tempHabit]);
+
+        setName('');
+        setFrequency('');
+
+        try {
+            const res = await axios.post(
+                `${API_URL}/api/habits`,
+                {
+                    name: tempHabit.name,
+                    frequency: tempHabit.frequency
+                },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            setHabits(prev => prev.map(hab =>
+                hab._id === tempHabit._id ? res.data.habit : hab
+            ));
+        } catch (err) {
+            setHabits(prev => prev.filter(hab => hab._id !== tempHabit._id));
+            console.error('Habit add failed', err);
+        }
     };
-    setHabits(prev =>[...pre , temphabit]);
 
-    setName('');
-    setFrequency('');
-    try{
-   const res =  await axios.post(`${API_URL}/api/habits`  ,
-        {name : temphabit.name ,
-             frequency : temphabit.frequency
-             },
-        {headers : { Authorization : ` Bearer ${token}`}
-    });
-    setHabits(prev => prev.map(habits =>
-         habits._id === temphabit._id ? res.data.habit : habit));
-    }catch(err){
-     setHabits(prev =>prev.filter(habits => habits._id !== temphabit._id));
-     console.error('Habits locked failed', err);
-    }}
-
-  return (
+    return (
         <div className="min-h-screen bg-gray-950 text-white">
             <div className="max-w-4xl mx-auto px-4 md:px-8 py-6 md:py-10">
                 <h1 className="text-3xl font-bold mb-8">Habits</h1>
@@ -107,7 +107,6 @@ function Habits(){
             </div>
         </div>
     );
-   
 }
 
- export default Habits;
+export default Habits;

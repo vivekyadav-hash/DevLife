@@ -1,76 +1,82 @@
-import {useState , useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import axios from "axios";
 import API_URL from "../utils/api";
-import { useNavigate } from 'react-router-dom';
 
-
-function Expenses(){
-    const[expense , setExpense] = useState([]);
-    const [title , setTitle] = useState('');
-    const[amount , setAmount] = useState('');
-    const[purpose ,setPurpose] = useState('');
-  const navigate = useNavigate();
+function Expenses() {
+    const [expense, setExpense] = useState([]);
+    const [title, setTitle] = useState('');
+    const [amount, setAmount] = useState('');
+    const [purpose, setPurpose] = useState('');
     const token = localStorage.getItem('token');
 
-     const fetchExpenses =   async () => {
-         const response = await axios.get( `${API_URL}/api/expenses` ,{
-        headers :{
-        Authorization : `Bearer ${token}`
-        }
-       });
-       setExpense(response.data.expenses);
+    const fetchExpenses = async () => {
+        const response = await axios.get(`${API_URL}/api/expenses`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        setExpense(response.data.expenses);
     };
 
-useEffect(() => {
-      
-       fetchExpenses();
- }, []);
+    useEffect(() => {
+        fetchExpenses();
+    }, []);
 
-const handleDelete = async (id) =>{
-    setTasks(prev => prev.filter(expense => expense._id !== id));
-    try{ await axios.delete(`${API_URL}/api/expenses/${id}` , {
-        headers: {Authorization : `Bearer ${token}`}
-    });
-}catch(err){
-    fetchExpenses();
-}
-}
+    const handleDelete = async (id) => {
+        // Optimistic — pehle UI se hatao
+        setExpense(prev => prev.filter(exp => exp._id !== id));
+        try {
+            await axios.delete(`${API_URL}/api/expenses/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+        } catch (err) {
+            // Fail hone pe wapas fetch karo
+            fetchExpenses();
+        }
+    };
 
-const handleOnSubmit =async (e) =>{
-e.preventDefault();
+    const handleOnSubmit = async (e) => {
+        e.preventDefault();
 
-const tempExpense = {
-    _id: Date.now().toString(),
-    title,
-    amount, 
-    purpose,
-};
-setTasks(prev => [...prev , tempExpense]);
+        // Step 1 — Pehle tempExpense banao
+        const tempExpense = {
+            _id: Date.now().toString(),
+            title,
+            amount,
+            purpose,
+        };
 
-setTitle('');
-setAmount('');
-setPurpose('');
+        // Step 2 — Instantly UI mein add karo
+        setExpense(prev => [...prev, tempExpense]);
 
-try{
- const res = await axios.post(
-    `${API_URL}/api/expenses` ,
-     { title: tempExpense.title ,
-         amount: tempExpense.amount ,
-          purpose: tempExpense.purpose
-        } , 
-    {headers: {Authorization : `Bearer ${token}`}
-})
+        // Step 3 — Ab inputs clear karo
+        setTitle('');
+        setAmount('');
+        setPurpose('');
 
-setExpense(prev=> prev.map(expense =>
-    expense._id === tempExpense._id ? res.data.expense : expense
-))
+        try {
+            // Step 4 — Background mein API call
+            const res = await axios.post(
+                `${API_URL}/api/expenses`,
+                {
+                    title: tempExpense.title,
+                    amount: tempExpense.amount,
+                    purpose: tempExpense.purpose
+                },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
 
-}catch(err){
-    setExpense(prev => prev.filter(expense => expense._id !== tempExpense._id));
-    console.error('Expense add failed' , err);
-}
-}
-   return (
+            // Step 5 — Temp ko real se replace karo
+            setExpense(prev => prev.map(exp =>
+                exp._id === tempExpense._id ? res.data.expense : exp
+            ));
+
+        } catch (err) {
+            // Step 6 — Fail hone pe temp hatao
+            setExpense(prev => prev.filter(exp => exp._id !== tempExpense._id));
+            console.error('Expense add failed', err);
+        }
+    };
+
+    return (
         <div className="min-h-screen bg-gray-950 text-white">
             <div className="max-w-4xl mx-auto px-4 md:px-8 py-6 md:py-10">
                 <h1 className="text-3xl font-bold mb-8">Expenses</h1>
@@ -121,4 +127,4 @@ setExpense(prev=> prev.map(expense =>
     );
 }
 
-export default Expenses ;
+export default Expenses;
