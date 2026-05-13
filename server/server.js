@@ -7,6 +7,7 @@ const authRoutes = require('./routes/auth');
 const taskRoutes = require('./routes/task');
 const expenseRouter = require('./routes/expense');
 const habitRouter = require('./routes/habits');
+const aiRoutes = require('./routes/ai');
 
 
 
@@ -27,6 +28,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/expenses' , expenseRouter);
 app.use('/api/habits' , habitRouter);
+app.use('/api/ai' , aiRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
