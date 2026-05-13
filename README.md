@@ -2,7 +2,7 @@
 
 > A full-stack MERN application built for hostel students to manage their daily tasks, expenses, and habits — all in one place.
 
-🔗 **Live Demo:** [dev-life-kappa.vercel.app](https://dev-life-kappa.vercel.app)
+🔗 **Live Demo:** [dev-life-kappa.vercel.app]([https://dev-life-kappa.vercel.app])
 
 ---
 
