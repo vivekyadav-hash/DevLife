@@ -37,6 +37,7 @@ router.post('/roadmap', authMiddleware, async (req, res) => {
         );
 
         const data = await response.json();
+        console.log('Gemini raw response:', JSON.stringify(data));
         const text = data.candidates[0].content.parts[0].text;
         const clean = text.replace(/```json|```/g, '').trim();
         const roadmap = JSON.parse(clean);
