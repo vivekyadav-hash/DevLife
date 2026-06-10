@@ -45,6 +45,7 @@ router.post('/roadmap', authMiddleware, async (req, res) => {
 
 
       const data = await response.json();
+      console.log('Groq response:', JSON.stringify(data));
         const text = data.choices[0].message.content;
         const clean = text.replace(/```json|```/g, '').trim();
         const roadmap = JSON.parse(clean);
