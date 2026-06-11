@@ -50,8 +50,10 @@ function Navbar() {
                     </button>
                 </div>
             )}
-            <div className="bg-yellow-500/10 border-b border-yellow-500/30 text-yellow-400 text-xs md:text-sm text-center py-1.5 px-4">
-    🚧 Version 2 in progress — new features coming soon
+      <div className="px-4 md:px-8 py-2">
+    <span className="inline-flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-xs px-3 py-1 rounded-full animate-pulse">
+        🚧 v2 in progress
+    </span>
 </div>
         </nav>
     );
