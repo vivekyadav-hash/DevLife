@@ -45,7 +45,7 @@ function Dashboard() {
     return (
         <div className="min-h-screen bg-gray-950 text-white">
             {showAiPop && (
-                <div className="fixed inset-0 bg-black/50 flex item-center justify-center z-50">
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <AiPop/>
                 </div>
             )}
