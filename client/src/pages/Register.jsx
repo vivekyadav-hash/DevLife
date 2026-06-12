@@ -16,6 +16,10 @@ function Register(){
  
     const handleSignUp = async (e) =>{
         e.preventDefault();
+        if(!name || !email || !password || !repassword){
+            setError("All fields are required");
+            return ;
+        }
            if (password !== repassword) {
     setError('Passwords do not match');
     return;
@@ -62,7 +66,7 @@ function Register(){
                     />
                      <input
                         type="repassword"
-                        placeholder="Password"
+                        placeholder="Confirm password"
                         value={repassword}
                         onChange={(e) => setRepassword(e.target.value)}
                         className="bg-gray-700 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
