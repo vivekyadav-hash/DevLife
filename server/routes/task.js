@@ -9,6 +9,10 @@ router.post('/', authMiddleware,  async ( req , res) =>{
 try{
     const {title , description , category , isCompleted  } = req.body;
     const userId = req.user.userId;
+     const existing = await Task.findOne({title , userId: req.user.userId});
+    if(existing){
+        return res.status(400).json({message: 'Task already exists'});
+    }
     const newTask = new Task({
         title , 
         description, 
