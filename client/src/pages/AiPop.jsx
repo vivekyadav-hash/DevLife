@@ -30,8 +30,8 @@ function AiPop({onClose}) {
         }
     }
     return (
-    <div className="w-96 max-h-[80vh]  bg-gray-800 rounded-2xl p-6 text-white">
-        <div className="flex justify-between items-center mb-4 flex-shrink-0">
+    <div className="w-96 max-h-[80vh]  bg-gray-800 rounded-2xl p-6 text-white flex flex-col ">
+        <div className="flex justify-between items-center mb-4 ">
             <h2 className="text-xl font-bold text-blue-400">Your RoadMap</h2>
             <button onClick={onClose} className="text-gray-400 hover:text-white text-xl">X</button>
         </div>
