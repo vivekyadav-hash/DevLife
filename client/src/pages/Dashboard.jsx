@@ -44,9 +44,10 @@ function Dashboard() {
     const notcompletedHabits = (habits || []).filter(habit => habit.isCompleted === false);
     return (
         <div className="min-h-screen bg-gray-950 text-white">
+            
             {showAiPop && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                    <AiPop/>
+                    <AiPop onClose={() => setShowAiPop(false)}/>
                 </div>
             )}
             <div className="max-w-4xl mx-auto px-4 md:px-8 py-6 md:py-10">

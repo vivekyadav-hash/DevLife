@@ -9,9 +9,12 @@ router.post('/', authMiddleware,  async ( req , res) =>{
 try{
     const {title , description , category , isCompleted  } = req.body;
     const userId = req.user.userId;
-     const existing = await Task.findOne({title , userId: req.user.userId});
+     const existing = await Task.findOne(
+        {title : {$regex : new RegExp(`^${title}$` , 'i')} ,
+        category : { $regex : new RegExp(`^${category}$` , 'i')} ,
+         userId: req.user.userId});
     if(existing){
-        return res.status(400).json({message: 'Task already exists'});
+        return res.status(400).json({message: 'Task with same title and category already exists'});
     }
     const newTask = new Task({
         title , 

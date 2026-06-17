@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import API_URL from "../utils/api";
 
-function AiPop() {
+function AiPop({onClose}) {
 
     const [goal, setGoal] = useState('');
     const [branch, setBranch] = useState('');
@@ -30,7 +30,12 @@ function AiPop() {
         }
     }
     return (
-    <div className="w-96 max-h-[80vh] overflow-y-auto bg-gray-800 rounded-2xl p-6 text-white">
+    <div className="w-96 max-h-[80vh]  bg-gray-800 rounded-2xl p-6 text-white">
+        <div className="flex justify-between items-center mb-4 flex-shrink-0">
+            <h2 className="text-xl font-bold text-blue-400">Your RoadMap</h2>
+            <button onClick={onClose} className="text-gray-400 hover:text-white text-xl">X</button>
+        </div>
+        <div className="overflow-y-auto flex-1">
         {!roadmap && !loading ? (
             <form onSubmit={handleOnSubmit} className="flex flex-col gap-4">
                 <h2 className="text-2xl font-bold text-blue-400 mb-2">Let's build your roadmap</h2>
@@ -64,6 +69,7 @@ function AiPop() {
         ) : null}
 
         {loading && <p className="text-gray-400 mt-4">Generating your roadmap...</p>}
+    </div>
     </div>
 );
 }
