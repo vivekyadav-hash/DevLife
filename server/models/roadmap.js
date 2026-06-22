@@ -19,7 +19,9 @@ const roadmapSchema = new mongoose.Schema({
        }, 
        dailyTasks :{
         type : [String] ,
-       }, timestamps: true 
+       }, 
+} , {
+    timestamps: true
 });
 
 module.exports = mongoose.model('roadmap' , roadmapSchema);
