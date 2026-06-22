@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 function Navbar() {
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
+    const [showAiPop, setShowAiPop] = useState(false);
+
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -43,6 +45,8 @@ function Navbar() {
                     <Link to="/tasks" onClick={() => setIsOpen(false)} className="hover:text-blue-400 transition">Tasks</Link>
                     <Link to="/expenses" onClick={() => setIsOpen(false)} className="hover:text-blue-400 transition">Expenses</Link>
                     <Link to="/habits" onClick={() => setIsOpen(false)} className="hover:text-blue-400 transition">Habits</Link>
+                    <Link className="hover:text-blue-400 transition">Roadmap  <AiPop onClose={() => setShowAiPop(false)}/></Link>
+
                     <button
                         onClick={handleLogout}
                         className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg transition w-fit">

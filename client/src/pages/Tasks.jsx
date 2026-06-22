@@ -8,6 +8,7 @@ function Tasks() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
+    const [error , setError] = useState('');
     const token = localStorage.getItem('token');
 
     const fetchTasks = async () => {
@@ -70,7 +71,7 @@ function Tasks() {
         } catch (err) {
           
             setTasks(prev => prev.filter(task => task._id !== tempTask._id));
-            console.error('Task add failed', err);
+            setError(err.response?.data?.message || 'Something went wrong');
         }
     };
 
@@ -114,6 +115,7 @@ function Tasks() {
                                     {task.isCompleted ? '✅ Completed' : '⏳ Not Completed'}
                                 </p>
                             </div>
+                             {error && <p className="text-red-400 text-sm">{error}</p>} 
                             <button
                                 onClick={() => handleDelete(task._id)}
                                 className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm transition">

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/auth');
 const User = require('../models/user');
+const Roadmap = require('../models/roadmap');
 
 router.post('/roadmap', authMiddleware, async (req, res) => {
     try {
@@ -44,6 +45,8 @@ router.post('/roadmap', authMiddleware, async (req, res) => {
 
 
 
+
+
       const data = await response.json();
       console.log('Groq response:', JSON.stringify(data));
         const text = data.choices[0].message.content;
@@ -51,10 +54,19 @@ router.post('/roadmap', authMiddleware, async (req, res) => {
         const roadmap = JSON.parse(clean);
 
         // Mark user as not new
+        const savedRoadmap = new Roadmap({
+            userId : req.user.userId, 
+            summary : roadmap.summary, 
+            month1: roadmap.month1,
+            month2: roadmap.month2,
+            month3: roadmap.month3, 
+            dailyTasks : roadmap.dailyTasks
+        })
+        await  savedRoadmap.save();
         await User.findByIdAndUpdate(req.user.userId, { isNewUser: false });
 
         res.status(200).json({ roadmap });
-
+ 
     } catch (err) {
         console.error('AI error:', err);
         res.status(500).json({ message: 'AI error', error: err.message });
@@ -70,4 +82,12 @@ router.get('/isnewuser', authMiddleware, async (req, res) => {
     }
 });
 
+router.get('/myroadmap' , authMiddleware , async (req ,res) =>{
+    try{
+        const roadmap = await Roadmap.findOne({userId: req.user.userId}).sort({createdAt : -1});
+        res.status(200).json({roadmap});
+    }catch(err){
+        res.status(500).json({message: 'Server error'});
+    }
+});
 module.exports = router;
