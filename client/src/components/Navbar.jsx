@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import AiPop from './AiPop';
+
 
 function Navbar() {
     const navigate = useNavigate();
@@ -17,7 +19,7 @@ function Navbar() {
             <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold text-blue-400">DevLife</h2>
                 
-                {/* Hamburger button - only on mobile */}
+                {/* /* Hamburger button - only on mobile */ }
                 <button
                     className="md:hidden text-white focus:outline-none"
                     onClick={() => setIsOpen(!isOpen)}>
@@ -45,7 +47,7 @@ function Navbar() {
                     <Link to="/tasks" onClick={() => setIsOpen(false)} className="hover:text-blue-400 transition">Tasks</Link>
                     <Link to="/expenses" onClick={() => setIsOpen(false)} className="hover:text-blue-400 transition">Expenses</Link>
                     <Link to="/habits" onClick={() => setIsOpen(false)} className="hover:text-blue-400 transition">Habits</Link>
-                    <Link className="hover:text-blue-400 transition">Roadmap  <AiPop onClose={() => setShowAiPop(false)}/></Link>
+                    <Link className="hover:text-blue-400 transition text-left"> My Roadmap  <AiPop onClose={() => setShowAiPop(true)}/></Link>
 
                     <button
                         onClick={handleLogout}
