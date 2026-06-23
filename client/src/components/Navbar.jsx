@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import AiPop from "./pages/AiPop";
+import AiPop from './AiPop';
 
 
 function Navbar() {

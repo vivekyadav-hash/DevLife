@@ -6,7 +6,7 @@ import Dashboard from './pages/Dashboard';
 import Expenses from './pages/Expenses';
 import Habits from './pages/Habits';
 import ProtectedRoute from './components/ProtectedRoute';
-import Aipop from './pages/AiPop';
+import AiPop from './pages/AiPop';
 import Myroadmap from './pages/Myroadmap';
 import Navbar from './components/Navbar';
 
