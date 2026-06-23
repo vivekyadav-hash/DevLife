@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import Expenses from './pages/Expenses';
 import Habits from './pages/Habits';
 import ProtectedRoute from './components/ProtectedRoute';
+import Myroadmap from './pages/Myroadmap';
 import Navbar from './components/Navbar';
 
 function AppContent() {
@@ -23,6 +24,7 @@ function AppContent() {
                 <Route path="/tasks" element={<ProtectedRoute><Tasks /></ProtectedRoute>} />
                 <Route path="/expenses" element={<ProtectedRoute><Expenses /></ProtectedRoute>} />
                 <Route path="/habits" element={<ProtectedRoute><Habits /></ProtectedRoute>} />
+                <Route path="/myroadmap" element={<ProtectedRoute><Myroadmap /></ProtectedRoute>} />
             </Routes>
         </>
     );

@@ -32,6 +32,8 @@ function Navbar() {
                     <Link to="/tasks" className="hover:text-blue-400 transition">Tasks</Link>
                     <Link to="/expenses" className="hover:text-blue-400 transition">Expenses</Link>
                     <Link to="/habits" className="hover:text-blue-400 transition">Habits</Link>
+                    <Link to="/myroadmap" className="hover:text-blue-400 transition">My Roadmap</Link>
+
                     <button
                         onClick={handleLogout}
                         className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg transition">
@@ -47,8 +49,9 @@ function Navbar() {
                     <Link to="/tasks" onClick={() => setIsOpen(false)} className="hover:text-blue-400 transition">Tasks</Link>
                     <Link to="/expenses" onClick={() => setIsOpen(false)} className="hover:text-blue-400 transition">Expenses</Link>
                     <Link to="/habits" onClick={() => setIsOpen(false)} className="hover:text-blue-400 transition">Habits</Link>
-                    <Link className="hover:text-blue-400 transition text-left"> My Roadmap  <AiPop onClose={() => setShowAiPop(true)}/></Link>
-
+                     <Link to="/myroadmap" onClick={() => setIsOpen(false)} className="hover:text-blue-400 transition">
+    My Roadmap
+</Link>
                     <button
                         onClick={handleLogout}
                         className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg transition w-fit">
