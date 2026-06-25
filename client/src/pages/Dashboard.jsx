@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import API_URL from "../utils/api";
 import AiPop from './AiPop';
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 function Dashboard() {
     const [tasks, setTasks] = useState([]);
@@ -41,6 +45,17 @@ function Dashboard() {
         fetchData();
     }, []);
     const completedHabits = (habits || []).filter(habit => habit.isCompleted === true);
+    const categories = [...new Set(tasks.map(t => t.category))];
+const chartData = {
+    labels: categories,
+    datasets: [{
+        label: 'Tasks by Category',
+        data: categories.map(cat => tasks.filter(t => t.category === cat).length),
+        backgroundColor: 'rgba(59, 130, 246, 0.5)',
+        borderColor: 'rgba(59, 130, 246, 1)',
+        borderWidth: 1,
+    }]
+};
     const notcompletedHabits = (habits || []).filter(habit => habit.isCompleted === false);
     return (
         <div className="min-h-screen bg-gray-950 text-white">
@@ -71,6 +86,12 @@ function Dashboard() {
                     </div>
                 </div>
             </div>
+            {tasks.length > 0 && (
+    <div className="bg-gray-800 rounded-2xl p-6 shadow-lg mt-6">
+        <h3 className="text-gray-400 text-sm mb-4">Tasks by Category</h3>
+        <Bar data={chartData} />
+    </div>
+)}
         </div>
     );
 }
