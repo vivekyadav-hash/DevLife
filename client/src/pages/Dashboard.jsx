@@ -47,12 +47,21 @@ function Dashboard() {
     const completedHabits = (habits || []).filter(habit => habit.isCompleted === true);
     const categories = [...new Set(tasks.map(t => t.category))];
 const chartData = {
-    labels: categories,
+    labels: ['Completed', 'Not Completed'],
     datasets: [{
-        label: 'Tasks by Category',
-        data: categories.map(cat => tasks.filter(t => t.category === cat).length),
-        backgroundColor: 'rgba(59, 130, 246, 0.5)',
-        borderColor: 'rgba(59, 130, 246, 1)',
+        label: 'Tasks Status',
+        data: [
+            tasks.filter(t => t.isCompleted === true).length,
+            tasks.filter(t => t.isCompleted === false).length
+        ],
+        backgroundColor: [
+            'rgba(34, 197, 94, 0.5)',   // green for completed
+            'rgba(239, 68, 68, 0.5)',    // red for not completed
+        ],
+        borderColor: [
+            'rgba(34, 197, 94, 1)',
+            'rgba(239, 68, 68, 1)',
+        ],
         borderWidth: 1,
     }]
 };
