@@ -3,9 +3,9 @@ import axios from 'axios';
 import API_URL from "../utils/api";
 import AiPop from './AiPop';
 import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+// import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+// ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 function Dashboard() {
     const [tasks, setTasks] = useState([]);
@@ -46,25 +46,25 @@ function Dashboard() {
     }, []);
     const completedHabits = (habits || []).filter(habit => habit.isCompleted === true);
     const categories = [...new Set(tasks.map(t => t.category))];
-const chartData = {
-    labels: ['Completed', 'Not Completed'],
-    datasets: [{
-        label: 'Tasks Status',
-        data: [
-            tasks.filter(t => t.isCompleted === true).length,
-            tasks.filter(t => t.isCompleted === false).length
-        ],
-        backgroundColor: [
-            'rgba(34, 197, 94, 0.5)',   // green for completed
-            'rgba(239, 68, 68, 0.5)',    // red for not completed
-        ],
-        borderColor: [
-            'rgba(34, 197, 94, 1)',
-            'rgba(239, 68, 68, 1)',
-        ],
-        borderWidth: 1,
-    }]
-};
+// const chartData = {
+//     labels: ['Completed', 'Not Completed'],
+//     datasets: [{
+//         label: 'Tasks Status',
+//         data: [
+//             tasks.filter(t => t.isCompleted === true).length,
+//             tasks.filter(t => t.isCompleted === false).length
+//         ],
+//         backgroundColor: [
+//             'rgba(34, 197, 94, 0.5)',   // green for completed
+//             'rgba(239, 68, 68, 0.5)',    // red for not completed
+//         ],
+//         borderColor: [
+//             'rgba(34, 197, 94, 1)',
+//             'rgba(239, 68, 68, 1)',
+//         ],
+//         borderWidth: 1,
+//     }]
+// };
     const notcompletedHabits = (habits || []).filter(habit => habit.isCompleted === false);
     return (
         <div className="min-h-screen bg-gray-950 text-white">
